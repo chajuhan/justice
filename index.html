@@ -101,6 +101,8 @@ btns.forEach(b=>b.addEventListener('click',()=>{
   svg.style.cssText='position:absolute;left:0;top:0;pointer-events:none;overflow:visible';
   svg.setAttribute('shape-rendering','crispEdges');
   fit.appendChild(svg);
+  /* 선 두께: 패드(dpr 2)에서 보이는 두께(0.5 CSS px)에 최대한 맞춤. 고해상도 폰(dpr 3)은 2픽셀 */
+  const lineT=dpr=>Math.max(1,Math.round(.5*dpr))/dpr;
 
   /* 대괄호 [ ] 의 실제 글자 모양(위·아래 끝)을 재서, 위쪽 선~대괄호 / 대괄호~아래쪽 선 간격을 똑같이 맞춤 */
   const probe=document.createElement('span');probe.style.cssText='display:inline-block;width:0;height:0';
@@ -115,7 +117,7 @@ btns.forEach(b=>b.addEventListener('click',()=>{
   }
   function balanceTabs(s,dpr){
     const m=inkMetrics();if(!m)return;
-    const bs=[...nav.querySelectorAll('button')],T=1/dpr,sn=v=>Math.round(v*dpr)/dpr;
+    const bs=[...nav.querySelectorAll('button')],T=lineT(dpr),sn=v=>Math.round(v*dpr)/dpr;
     const bl=probe.getBoundingClientRect().bottom,fs=33.12;
     const inkTop=bl-m.above*fs*s,inkBot=bl+m.below*fs*s;
     const lineTop=sn(box.getBoundingClientRect().bottom)+T,lineBot=sn(nav.getBoundingClientRect().bottom);
@@ -127,7 +129,7 @@ btns.forEach(b=>b.addEventListener('click',()=>{
 
   /* 모든 선: 화면 픽셀 정확히 1개 두께(맨 위 선은 2개), 위치도 픽셀 칸에 맞춤 → 선마다 두께가 달라 보이지 않음 */
   function drawLines(){
-    const dpr=window.devicePixelRatio||1,T=1/dpr,fr=fit.getBoundingClientRect(),sn=v=>Math.round(v*dpr)/dpr;
+    const dpr=window.devicePixelRatio||1,T=lineT(dpr),fr=fit.getBoundingClientRect(),sn=v=>Math.round(v*dpr)/dpr;
     let out='';
     const R=(x0,y0,x1,y1)=>{const a=sn(x0)-fr.left,b=sn(y0)-fr.top,c=sn(x1)-fr.left,d=sn(y1)-fr.top;
       if(c>a&&d>b)out+='<rect x="'+a+'" y="'+b+'" width="'+(c-a)+'" height="'+(d-b)+'"/>'};
