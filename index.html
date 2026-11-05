@@ -38,16 +38,17 @@ body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;
 .tabs button.on{color:var(--ink)}
 
 /* 본문 */
-.body{display:none;grid-template-columns:1fr 108px;gap:21.6px;padding:21.6px 0 36px}
+.body{display:none;grid-template-columns:1fr;gap:0;padding:21.6px 0 36px}
 .body.show{display:grid}
-.body .big{font-size:144px;font-weight:800;color:var(--hair);letter-spacing:-.05em;line-height:.8;text-align:right;order:2}
+.body .big{display:none;font-size:144px;font-weight:800;color:var(--hair);letter-spacing:-.05em;line-height:.8;text-align:right;order:2}
 .panel{display:none;font-size:18.72px;line-height:1.75;min-width:0}.panel.on{display:block}
 .panel h4{text-transform:uppercase;font-size:16.56px;color:var(--sub);font-weight:700;margin-bottom:18.72px}
 .panel p{margin-bottom:0;word-break:keep-all}.panel p:last-child{margin-bottom:0}
 .panel mark{background:none;color:inherit;font-weight:700}
-.panel ol{list-style:none}.panel ol li{margin-bottom:2.16px}.panel sup{font-size:12.24px;margin-right:3.6px}
+.panel ol{list-style:none}.panel ol li{margin:0}.panel sup{font-size:12.24px;margin-right:3.6px;line-height:0}
+.panel[data-p="3"] h4{margin-bottom:25.7px}
 table{width:100%;border-collapse:separate;border-spacing:0;font-size:16.56px;background:#fff}
-th{font-weight:400;color:var(--sub);text-align:left;padding:18px 0 12px}
+th{font-weight:400;color:var(--sub);text-align:left;padding:11px 0}
 th .st{color:var(--soft);margin-right:7px;font-size:.9em}
 td{padding:11px 0;vertical-align:middle}
 table td.n{font-family:"Pretendard",-apple-system,sans-serif;font-weight:400;color:var(--soft);font-size:.82em;letter-spacing:-.5px;width:34px;padding-left:2px}
@@ -91,22 +92,6 @@ btns.forEach(b=>b.addEventListener('click',()=>{
   b.classList.add('on');panels.find(p=>p.dataset.p===b.dataset.t).classList.add('on');bodyEl.classList.add('show');if(window.__refit)window.__refit();
 }));
 
-/* 2-1) 대괄호 글자 모양(실제 잉크 높이)을 재서 위·아래 선과의 간격을 똑같이 맞춤 */
-function balanceTabs(){
-  try{
-    const cs=getComputedStyle(btns[0]),c=document.createElement('canvas').getContext('2d');
-    c.font=cs.fontWeight+' 33.12px '+cs.fontFamily;
-    const m=c.measureText('[]');
-    if(m.fontBoundingBoxAscent==null)return;
-    const G=720*0.024; /* 선~대괄호 끝 간격 (넓히려면 0.024 ↑) */
-    const top=G-(m.fontBoundingBoxAscent-m.actualBoundingBoxAscent);
-    const bot=G-(m.fontBoundingBoxDescent-m.actualBoundingBoxDescent);
-    btns.forEach(x=>{x.style.paddingTop=Math.max(0,top)+'px';x.style.paddingBottom=Math.max(0,bot)+'px'});
-  }catch(e){}
-}
-balanceTabs();
-if(document.fonts&&document.fonts.ready)document.fonts.ready.then(balanceTabs);
-
 /* 3) 화면 크기에 맞춰 축소: PC·패드 360px, 모바일은 더 작게(최대 300px / 화면의 78%) */
 (function(){
   const fit=document.getElementById('fit'),wrap=document.getElementById('wrap'),
@@ -116,6 +101,29 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(balanceTabs);
   svg.style.cssText='position:absolute;left:0;top:0;pointer-events:none;overflow:visible';
   svg.setAttribute('shape-rendering','crispEdges');
   fit.appendChild(svg);
+
+  /* 대괄호 [ ] 의 실제 글자 모양(위·아래 끝)을 재서, 위쪽 선~대괄호 / 대괄호~아래쪽 선 간격을 똑같이 맞춤 */
+  const probe=document.createElement('span');probe.style.cssText='display:inline-block;width:0;height:0';
+  nav.querySelector('button').appendChild(probe);
+  const TAB_GAP=17.28; /* 선과 대괄호 끝 사이 간격(px). 넓히려면 ↑ */
+  function inkMetrics(){
+    const cs=getComputedStyle(nav.querySelector('button')),c=document.createElement('canvas');c.width=400;c.height=300;
+    const x=c.getContext('2d');x.font=cs.fontWeight+' 100px '+cs.fontFamily;x.textBaseline='alphabetic';x.fillStyle='#000';x.fillText('[ ]',50,180);
+    const d=x.getImageData(0,0,400,300).data;let min=-1,max=-1;
+    for(let y=0;y<300;y++){let hit=false;for(let xx=0;xx<400;xx++){if(d[(y*400+xx)*4+3]>100){hit=true;break}}if(hit){if(min<0)min=y;max=y}}
+    return min<0?null:{above:(180-min)/100,below:(max+1-180)/100};
+  }
+  function balanceTabs(s,dpr){
+    const m=inkMetrics();if(!m)return;
+    const bs=[...nav.querySelectorAll('button')],T=1/dpr,sn=v=>Math.round(v*dpr)/dpr;
+    const bl=probe.getBoundingClientRect().bottom,fs=33.12;
+    const inkTop=bl-m.above*fs*s,inkBot=bl+m.below*fs*s;
+    const lineTop=sn(box.getBoundingClientRect().bottom)+T,lineBot=sn(nav.getBoundingClientRect().bottom);
+    const gT=(inkTop-lineTop)/s,gB=(lineBot-inkBot)/s;
+    bs.forEach(b=>{const cs=getComputedStyle(b);
+      b.style.paddingTop=Math.max(0,parseFloat(cs.paddingTop)+TAB_GAP-gT)+'px';
+      b.style.paddingBottom=Math.max(0,parseFloat(cs.paddingBottom)+TAB_GAP-gB)+'px'});
+  }
 
   /* 모든 선: 화면 픽셀 정확히 1개 두께(맨 위 선은 2개), 위치도 픽셀 칸에 맞춤 → 선마다 두께가 달라 보이지 않음 */
   function drawLines(){
@@ -138,9 +146,10 @@ if(document.fonts&&document.fonts.ready)document.fonts.ready.then(balanceTabs);
     const w=mobile?Math.min(300,innerWidth*.78):Math.min(360,innerWidth*.9),s=w/720,dpr=window.devicePixelRatio||1;
     fit.style.width=w+'px';
     wrap.style.transform='scale('+s+')';
-    const h=wrap.offsetHeight*s;
-    fit.style.height=h+'px';
-    fit.style.marginTop=(Math.round(Math.max(0,(innerHeight-h)/2)*dpr)/dpr)+'px';
+    const h0=wrap.offsetHeight*s;
+    fit.style.marginTop=(Math.round(Math.max(0,(innerHeight-h0)/2)*dpr)/dpr)+'px';
+    balanceTabs(s,dpr);balanceTabs(s,dpr);
+    fit.style.height=(wrap.offsetHeight*s)+'px';
     drawLines();
   }
   window.__refit=resize;
