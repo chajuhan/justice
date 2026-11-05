@@ -4,69 +4,152 @@
 <title>Justice</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
 <style>
-:root{--ink:#2b2b2b;--sub:#7a7a7a;--soft:#b8b8b8;--hair:#d9d9d9;--line:#2b2b2b;--bg:#fafafa;--font:"Helvetica Neue",Helvetica,Arial,"Pretendard",sans-serif}
-*{box-sizing:border-box;margin:0;padding:0}html{-webkit-text-size-adjust:100%}
-body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;justify-content:center;align-items:center;min-height:100vh;min-height:100dvh;padding:6vw 0}
-.wrap{width:min(360px,90vw);container-type:inline-size}.card{padding:0 4cqw}
-.display{font-weight:800;letter-spacing:-.06em;line-height:.88}.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace}
-.top{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:3cqw}
-.top .l{font-size:15cqw;position:relative;padding-left:3.5cqw}
-.top .l i{position:absolute;left:-3.50cqw;top:-4.50cqw;font-style:normal;font-size:13cqw;line-height:1;color:var(--soft);font-weight:400}
-.top .r{text-align:right}.top .r b{display:block;font-size:4.2cqw;letter-spacing:-.04em;line-height:1}
-.top .r span{display:block;font-size:2.3cqw;line-height:1.35;margin-top:.8cqw;color:var(--sub)}
-.tagline{letter-spacing:-.25px;position:relative;font-size:2.4cqw;line-height:1.6;color:var(--sub);padding-bottom:3cqw;white-space:pre-line}
-.tagline .ghost{visibility:hidden}.tagline .typed{position:absolute;left:0;top:0}
-.tagline .typed::after{content:"";display:inline-block;width:.25cqw;height:1.1em;background:var(--sub);vertical-align:-.15em;margin-left:.3cqw;animation:blink 1s steps(1) infinite}
-@keyframes blink{50%{opacity:0}}
-.box{display:grid;grid-template-columns:.65fr 1.2fr;border-top:.4cqw solid var(--line);border-bottom:.15cqw solid var(--line)}
-.box>div{padding:2.6cqw 0}
-.box .a{padding-right:2.6cqw;display:flex;flex-direction:column;justify-content:space-between}
-.box .a em{display:block;font-style:normal;font-weight:700;font-size:2.3cqw;line-height:1.5}
-.box .a small{display:block;font-size:2.2cqw;line-height:1.5;color:var(--sub);margin-top:0}
-.box .a .display{font-size:9cqw;margin-top:3cqw;overflow-wrap:anywhere}
-.box .b{padding-left:3cqw;text-align:right;border-left:.15cqw solid var(--line)}.box .b .display{font-size:8.5cqw}.box .b small{display:block;font-size:2.3cqw;margin-top:1cqw}
-.tabs{display:flex;gap:2cqw;margin:1cqw 0 .3cqw}
-.tabs button{all:unset;color:var(--soft);cursor:pointer;text-align:left;font-size:4.6cqw;font-weight:700;letter-spacing:-.02em;padding:.7cqw 0;white-space:pre;-webkit-tap-highlight-color:transparent}
-.tabs button.on{color:var(--ink)}
-.meter{display:flex;align-items:center;gap:2cqw;padding:0 0 .6cqw;font-size:2.3cqw;font-weight:600}
-.meter .bar{flex:1}
-.body{display:grid;grid-template-columns:1fr 15cqw;gap:3cqw;padding:3cqw 0 5cqw;border-top:.15cqw solid var(--line)}
-.body .big{font-size:20cqw;font-weight:800;color:var(--hair);letter-spacing:-.05em;line-height:.8;text-align:right;order:2}
-.panel{display:none;font-size:2.6cqw;line-height:1.75;min-width:0}.panel.on{display:block}
-.panel h4{text-transform:uppercase;font-size:2.3cqw;color:var(--sub);font-weight:700;margin-bottom:2.6cqw}
-.panel p{margin-bottom:0;word-break:keep-all}.panel p.e{min-height:1.75em}.panel .ko{letter-spacing:-.25px}.panel p:last-child{margin-bottom:0}
-.panel mark{background:none;color:inherit;font-weight:700}
-.panel u{text-decoration-color:var(--soft);text-decoration-thickness:.12cqw;text-underline-offset:.5cqw}
-.panel ol{list-style:none}.panel ol li{margin-bottom:.3cqw}.panel sup{font-size:1.7cqw;margin-right:.5cqw}
-table{width:100%;border-collapse:collapse;font-size:2.3cqw}
-th{font-weight:400;color:var(--sub);text-align:left;padding:1cqw 0;border-bottom:.15cqw solid var(--line)}
-td{padding:1.2cqw 0;border-bottom:.15cqw solid var(--line);vertical-align:top}
-td:first-child{font-weight:700}td:last-child{text-align:right;color:var(--sub)}
-th[colspan]{text-align:left}
-.foot{text-align:center;font-size:2.1cqw;letter-spacing:.3em;color:var(--soft);padding-top:3cqw}
-.wrap{--hl:#e4e4e4}mark{background:none;color:inherit;font-weight:700}
-.hl{background:var(--hl);font-weight:700;padding:.05em .25em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.it{font-style:italic;letter-spacing:-.25px}.tt{letter-spacing:-.07em}
-:root{--bg:#ffffff}
-.card .box .a em,.card .box .a em *{line-height:1.3!important}
-.card .panel table{background:#ffffff!important}
+:root{--ink:#2b2b2b;--sub:#7a7a7a;--soft:#b8b8b8;--hair:#d9d9d9;--line:#2b2b2b;--bg:#ffffff;--font:"Helvetica Neue",Helvetica,Arial,"Pretendard",sans-serif}
+*{box-sizing:border-box;margin:0;padding:0}html{-webkit-text-size-adjust:100%;text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);display:flex;justify-content:center;align-items:flex-start;min-height:100vh;min-height:100dvh;padding:0}
 
-</style></head><body><div class="wrap"><div class="card">
+/* 고정 폭(720px)으로 레이아웃을 잡고 통째로 축소. 선은 JS가 화면 픽셀에 딱 맞춰 SVG로 그림 */
+.fit{width:360px;position:relative;flex:none}
+.wrap{width:720px;transform-origin:0 0;transform:scale(.5)}
+.card{padding:0 28.8px}
+
+.display{font-weight:800;letter-spacing:-.06em;line-height:.88}.mono{font-family:ui-monospace,"SF Mono",Menlo,monospace}
+.ko{letter-spacing:-0.5px} /* 360px 기준 -0.25px */
+.top{display:flex;justify-content:space-between;align-items:flex-end;padding-bottom:21.6px}
+.top .l{font-size:108px;position:relative;padding-left:25.2px}
+.top .l i{position:absolute;left:-25.2px;top:-32.4px;font-style:normal;font-size:93.6px;line-height:1;color:var(--soft);font-weight:400}
+.top .r{text-align:right}.top .r b{display:block;font-size:30.24px;letter-spacing:-.04em;line-height:1}
+.top .r span{display:block;font-size:16.56px;line-height:1.35;margin-top:5.76px;color:var(--sub)}
+.tagline{letter-spacing:-0.5px;position:relative;font-size:17.28px;line-height:1.6;color:var(--sub);padding-bottom:21.6px;white-space:pre-line}
+.tagline .ghost{visibility:hidden}.tagline .typed{position:absolute;left:0;top:0}
+.tagline .typed::after{content:"";display:inline-block;width:1.8px;height:1.1em;background:var(--sub);vertical-align:-.15em;margin-left:2.16px;animation:blink 1s steps(1) infinite}
+@keyframes blink{50%{opacity:0}}
+.box{display:grid;grid-template-columns:.65fr 1.2fr;}
+.box>div{padding:18.72px 0}
+.box .a{padding-right:18.72px;display:flex;flex-direction:column;justify-content:space-between}
+.box .a em{display:block;font-style:normal;font-weight:700;font-size:16.56px;line-height:1.3}
+.box .a small{display:block;font-size:15.84px;line-height:1.5;color:var(--sub);margin-top:0}
+.box .a .display{font-size:64.8px;margin-top:21.6px;overflow-wrap:anywhere}
+.box .b{padding-left:21.6px;text-align:right}.box .b .display{font-size:61.2px}.box .b small{display:block;font-size:16.56px;margin-top:7.2px}
+
+/* 대괄호 탭: 위·아래 선과의 간격을 동일하게 */
+.tabs{display:flex;gap:14.4px}
+.tabs button{all:unset;color:var(--soft);cursor:pointer;text-align:left;font-size:33.12px;font-weight:700;letter-spacing:-.02em;padding:15.84px 0;white-space:pre;-webkit-tap-highlight-color:transparent}
+.tabs button.on{color:var(--ink)}
+
+/* 본문 */
+.body{display:none;grid-template-columns:1fr 108px;gap:21.6px;padding:21.6px 0 36px}
+.body.show{display:grid}
+.body .big{font-size:144px;font-weight:800;color:var(--hair);letter-spacing:-.05em;line-height:.8;text-align:right;order:2}
+.panel{display:none;font-size:18.72px;line-height:1.75;min-width:0}.panel.on{display:block}
+.panel h4{text-transform:uppercase;font-size:16.56px;color:var(--sub);font-weight:700;margin-bottom:18.72px}
+.panel p{margin-bottom:0;word-break:keep-all}.panel p:last-child{margin-bottom:0}
+.panel mark{background:none;color:inherit;font-weight:700}
+.panel ol{list-style:none}.panel ol li{margin-bottom:2.16px}.panel sup{font-size:12.24px;margin-right:3.6px}
+table{width:100%;border-collapse:separate;border-spacing:0;font-size:16.56px;background:#fff}
+th{font-weight:400;color:var(--sub);text-align:left;padding:18px 0 12px}
+th .st{color:var(--soft);margin-right:7px;font-size:.9em}
+td{padding:11px 0;vertical-align:middle}
+table td.n{font-family:"Pretendard",-apple-system,sans-serif;font-weight:400;color:var(--soft);font-size:.82em;letter-spacing:-.5px;width:34px;padding-left:2px}
+td.nm{font-weight:700}
+td.q{text-align:right;color:var(--sub)}
+th[colspan]{text-align:left}
+.foot{text-align:center;font-size:15.12px;letter-spacing:.3em;color:var(--soft);padding-top:21.6px}
+.it{font-style:italic}
+</style></head><body><div class="fit" id="fit"><div class="wrap" id="wrap"><div class="card">
 <header class="top"><div class="l display"><i>✶</i>Ethic</div><div class="r"><b>Justice</b><span>by dolus eventualis―</span></div></header>
 <p class="tagline" id="tagline" data-text="법관은 헌법과 법률에 의하여&#10;그 양심에 따라 독립하여 심판한다."><span class="ghost"></span><span class="typed"></span></p>
 <section class="box"><div class="a"><div><em>for @ruinsez</em><small>non-cycle protect account</small></div><div class="display">!AN</div></div>
 <div class="b"><div class="display"></div><small><span class="it">이제는 바다를 보며 죽음을 떠올리지 않을 테니.</span></small></div></section>
 <nav class="tabs" id="tabs"><button class="on" data-t="0">[ All ]</button><button data-t="1">[ sins ]</button><button data-t="2">[ demand ]</button><button data-t="3">[ a witness ]</button></nav>
-<div class="meter"><span></span><span class="bar"></span><span></span></div>
-<section class="body"><div class="big display"></div><div><div class="panel on" data-p="0"><h4>INFO</h4><ol><li><sup>1</sup><span class="ko">너희들은</span> <span class="ko">변호됐다</span> <mark><span class="ko">차주한</span></mark></li><li><sup>2</sup><span class="ko">극</span> <span class="ko">온리</span> <span class="ko">동담</span> <span class="ko">거부</span> <span class="ko">성향</span></li><li><sup>3</sup><span class="ko">배려</span> <span class="ko">불가할</span> <span class="ko">시</span> <span class="ko">연결</span> X</li></ol></div>
-<div class="panel" data-p="1"><h4>ETC</h4><p><span class="ko">외</span> <span class="ko">폭군</span> <span class="ko">협회장이</span> <span class="ko">일을</span> <span class="ko">너무</span> <span class="ko">잘함</span> <mark><span class="ko">진명학</span></mark> <span style="color:#5c5c5c!important"><span class="ko">오픈</span> <span class="ko">비이입으로</span> <span class="ko">배려</span> <span class="ko">필요</span> X</span></p><p><span class="ko">디엠</span> <span class="ko">등</span> <span class="ko">기록</span> <span class="ko">남는</span> <span class="ko">것</span> <span class="ko">싫어합니다</span> <span class="ko">용건은</span> <span class="ko">타</span> <span class="ko">계정</span> <span class="ko">디엠</span></p><p><span class="ko">자연</span> <span class="ko">발생</span> <span class="ko">시에는</span> <span class="ko">친분</span> <span class="ko">무관</span> <span class="ko">해당</span> <span class="ko">계정</span> <span class="ko">정리</span></p></div>
-<div class="panel" data-p="2"><h4>NG</h4><ol><li><sup>1</sup><span class="ko">변호됨</span> <span class="ko">내</span> 2<span class="ko">차</span> <span class="ko">동인</span> <span class="ko">커플링</span></li><li><sup>2</sup>AI <span class="ko">채팅</span> <span class="ko">및</span> <span class="ko">짤뽑</span> <span class="ko">소비</span></li><li><sup>3</sup><span class="ko">악의적</span> <span class="ko">사찰</span> <span class="ko">및</span> <mark><span class="ko">영향</span> <span class="ko">받는</span> <span class="ko">모든</span> <span class="ko">행위</span></mark></li></ol></div>
-<div class="panel" data-p="3"><h4>List</h4><table><tr><th colspan="2"><span class="ko">개인적으로</span> <span class="ko">받지</span> <span class="ko">않는</span> <span class="ko">드림</span> <span class="ko">존재합니다</span></th></tr><tr><td><span class="ko">박무현</span></td><td><span class="ko">어두운</span> <span class="ko">바다의</span> <span class="ko">등불이</span> <span class="ko">되어</span></td></tr><tr><td><span class="ko">이예현</span></td><td><span class="ko">블랙배저</span></td></tr></table></div></div></section>
+<section class="body show" id="body"><div class="big display"></div><div>
+<div class="panel on" data-p="0"><h4>INFO</h4><ol><li><sup>1</sup>너희들은 변호됐다 <mark>차주한</mark></li><li><sup>2</sup>극 온리 동담 거부 성향</li><li><sup>3</sup>배려 불가할 시 연결 X</li></ol></div>
+<div class="panel" data-p="1"><h4>ETC</h4><p>외 폭군 협회장이 일을 너무 잘함 <mark>진명학</mark> <span style="color:var(--sub)">오픈 비이입으로 배려 필요 X</span></p><p>디엠 등 기록 남는 것 싫어합니다 용건은 타 계정 디엠</p><p>자연 발생 시에는 친분 무관 해당 계정 정리</p></div>
+<div class="panel" data-p="2"><h4>NG</h4><ol><li><sup>1</sup>변호됨 내 2차 동인 커플링</li><li><sup>2</sup>AI 채팅 및 짤뽑 소비</li><li><sup>3</sup>악의적 사찰 및 <mark>영향 받는 모든 행위</mark></li></ol></div>
+<div class="panel" data-p="3"><h4>List</h4><table><tr><th colspan="3"><span class="st">✶</span>개인적으로 받지 않는 드림 존재합니다</th></tr><tr><td class="n">01</td><td class="nm">박무현</td><td class="q">어두운 바다의 등불이 되어</td></tr><tr><td class="n">02</td><td class="nm">이예현</td><td class="q">블랙배저</td></tr></table></div>
+</div></section>
 <footer class="foot mono"></footer>
-</div></div>
+</div></div></div>
 <script>
-const btns=[...document.querySelectorAll('#tabs button')],panels=[...document.querySelectorAll('.panel')];
-btns.forEach(b=>b.addEventListener('click',()=>{btns.forEach(x=>x.classList.toggle('on',x===b));panels.forEach(p=>p.classList.toggle('on',p.dataset.p===b.dataset.t))}));
+/* 1) 한글 전체에 자간(-0.25px) 적용: 한글이 들어간 글자를 .ko 로 감싸기 (누락 방지) */
+(function(){
+  const re=/[\u1100-\u11FF\u3131-\u318E\uAC00-\uD7A3]+/g,root=document.querySelector('.card');
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),nodes=[];
+  while(w.nextNode()){const n=w.currentNode,p=n.parentNode;
+    if(p.closest('.tagline')||p.closest('.ko')||!re.test(n.nodeValue)){re.lastIndex=0;continue}
+    re.lastIndex=0;nodes.push(n)}
+  nodes.forEach(n=>{const f=document.createDocumentFragment();let last=0,m;const s=n.nodeValue;re.lastIndex=0;
+    while((m=re.exec(s))){if(m.index>last)f.append(s.slice(last,m.index));
+      const sp=document.createElement('span');sp.className='ko';sp.textContent=m[0];f.append(sp);last=m.index+m[0].length}
+    if(last<s.length)f.append(s.slice(last));n.replaceWith(f)});
+})();
+
+/* 2) 탭 전환 (처음엔 All 본문 표시) */
+const btns=[...document.querySelectorAll('#tabs button')],panels=[...document.querySelectorAll('.panel')],bodyEl=document.getElementById('body');
+btns.forEach(b=>b.addEventListener('click',()=>{
+  btns.forEach(x=>x.classList.remove('on'));panels.forEach(p=>p.classList.remove('on'));
+  b.classList.add('on');panels.find(p=>p.dataset.p===b.dataset.t).classList.add('on');bodyEl.classList.add('show');if(window.__refit)window.__refit();
+}));
+
+/* 2-1) 대괄호 글자 모양(실제 잉크 높이)을 재서 위·아래 선과의 간격을 똑같이 맞춤 */
+function balanceTabs(){
+  try{
+    const cs=getComputedStyle(btns[0]),c=document.createElement('canvas').getContext('2d');
+    c.font=cs.fontWeight+' 33.12px '+cs.fontFamily;
+    const m=c.measureText('[]');
+    if(m.fontBoundingBoxAscent==null)return;
+    const G=720*0.024; /* 선~대괄호 끝 간격 (넓히려면 0.024 ↑) */
+    const top=G-(m.fontBoundingBoxAscent-m.actualBoundingBoxAscent);
+    const bot=G-(m.fontBoundingBoxDescent-m.actualBoundingBoxDescent);
+    btns.forEach(x=>{x.style.paddingTop=Math.max(0,top)+'px';x.style.paddingBottom=Math.max(0,bot)+'px'});
+  }catch(e){}
+}
+balanceTabs();
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(balanceTabs);
+
+/* 3) 화면 크기에 맞춰 축소: PC·패드 360px, 모바일은 더 작게(최대 300px / 화면의 78%) */
+(function(){
+  const fit=document.getElementById('fit'),wrap=document.getElementById('wrap'),
+        box=document.querySelector('.box'),bEl=document.querySelector('.box .b'),nav=document.getElementById('tabs');
+  const NS='http://www.w3.org/2000/svg',svg=document.createElementNS(NS,'svg');
+  svg.setAttribute('aria-hidden','true');
+  svg.style.cssText='position:absolute;left:0;top:0;pointer-events:none;overflow:visible';
+  svg.setAttribute('shape-rendering','crispEdges');
+  fit.appendChild(svg);
+
+  /* 모든 선: 화면 픽셀 정확히 1개 두께(맨 위 선은 2개), 위치도 픽셀 칸에 맞춤 → 선마다 두께가 달라 보이지 않음 */
+  function drawLines(){
+    const dpr=window.devicePixelRatio||1,T=1/dpr,fr=fit.getBoundingClientRect(),sn=v=>Math.round(v*dpr)/dpr;
+    let out='';
+    const R=(x0,y0,x1,y1)=>{const a=sn(x0)-fr.left,b=sn(y0)-fr.top,c=sn(x1)-fr.left,d=sn(y1)-fr.top;
+      if(c>a&&d>b)out+='<rect x="'+a+'" y="'+b+'" width="'+(c-a)+'" height="'+(d-b)+'"/>'};
+    const bx=box.getBoundingClientRect(),bb=bEl.getBoundingClientRect(),nv=nav.getBoundingClientRect();
+    R(bx.left,bx.top-2*T,bx.right,bx.top);          /* 위 굵은 선 */
+    R(bx.left,bx.bottom,bx.right,bx.bottom+T);       /* 박스 아래 선 */
+    R(bb.left,bx.top,bb.left+T,bx.bottom);           /* 세로선 */
+    R(nv.left,nv.bottom,nv.right,nv.bottom+T);       /* 대괄호 아래 선 */
+    document.querySelectorAll('.panel.on tr').forEach(tr=>{const r=tr.getBoundingClientRect();R(r.left,r.bottom-T,r.right,r.bottom)});
+    svg.setAttribute('width',fr.width);svg.setAttribute('height',fr.height);
+    svg.setAttribute('fill',getComputedStyle(document.documentElement).getPropertyValue('--line').trim()||'#2b2b2b');
+    svg.innerHTML=out;
+  }
+  function resize(){
+    const mobile=matchMedia('(max-width:600px)').matches;
+    const w=mobile?Math.min(300,innerWidth*.78):Math.min(360,innerWidth*.9),s=w/720,dpr=window.devicePixelRatio||1;
+    fit.style.width=w+'px';
+    wrap.style.transform='scale('+s+')';
+    const h=wrap.offsetHeight*s;
+    fit.style.height=h+'px';
+    fit.style.marginTop=(Math.round(Math.max(0,(innerHeight-h)/2)*dpr)/dpr)+'px';
+    drawLines();
+  }
+  window.__refit=resize;
+  resize();addEventListener('resize',resize);addEventListener('orientationchange',resize);
+  if(document.fonts&&document.fonts.ready)document.fonts.ready.then(resize);
+  setTimeout(resize,300);setTimeout(resize,1200);
+})();
+
+/* 4) 상단 문구 타이핑 */
 (function(){const SPEED=70,el=document.getElementById('tagline'),text=el.dataset.text,g=el.querySelector('.ghost'),t=el.querySelector('.typed');
 g.textContent=text;if(matchMedia('(prefers-reduced-motion: reduce)').matches){t.textContent=text;return}
 const c=[...text];let i=0;setTimeout(function k(){t.textContent=c.slice(0,++i).join('');if(i<c.length)setTimeout(k,SPEED)},400)})();
