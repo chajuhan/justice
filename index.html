@@ -99,10 +99,10 @@ btns.forEach(b=>b.addEventListener('click',()=>{
   const NS='http://www.w3.org/2000/svg',svg=document.createElementNS(NS,'svg');
   svg.setAttribute('aria-hidden','true');
   svg.style.cssText='position:absolute;left:0;top:0;pointer-events:none;overflow:visible';
-  svg.setAttribute('shape-rendering','crispEdges');
+  svg.setAttribute('shape-rendering','geometricPrecision');
   fit.appendChild(svg);
-  /* 선 두께: 패드(dpr 2)에서 보이는 두께(0.5 CSS px)에 최대한 맞춤. 고해상도 폰(dpr 3)은 2픽셀 */
-  const lineT=dpr=>Math.max(1,Math.round(.5*dpr))/dpr;
+  /* 선 두께: 모든 기기에서 화면상 0.5px (패드 기준과 동일). PC처럼 해상도가 낮으면 최소 1픽셀 */
+  const lineT=dpr=>Math.max(.5,1/dpr);
 
   /* 대괄호 [ ] 의 실제 글자 모양(위·아래 끝)을 재서, 위쪽 선~대괄호 / 대괄호~아래쪽 선 간격을 똑같이 맞춤 */
   const probe=document.createElement('span');probe.style.cssText='display:inline-block;width:0;height:0';
@@ -127,18 +127,19 @@ btns.forEach(b=>b.addEventListener('click',()=>{
       b.style.paddingBottom=Math.max(0,parseFloat(cs.paddingBottom)+TAB_GAP-gB)+'px'});
   }
 
-  /* 모든 선: 화면 픽셀 정확히 1개 두께(맨 위 선은 2개), 위치도 픽셀 칸에 맞춤 → 선마다 두께가 달라 보이지 않음 */
+  /* 모든 선: 같은 두께(0.5px, 맨 위 선만 2배)로 그림 */
   function drawLines(){
     const dpr=window.devicePixelRatio||1,T=lineT(dpr),fr=fit.getBoundingClientRect(),sn=v=>Math.round(v*dpr)/dpr;
     let out='';
-    const R=(x0,y0,x1,y1)=>{const a=sn(x0)-fr.left,b=sn(y0)-fr.top,c=sn(x1)-fr.left,d=sn(y1)-fr.top;
-      if(c>a&&d>b)out+='<rect x="'+a+'" y="'+b+'" width="'+(c-a)+'" height="'+(d-b)+'"/>'};
+    /* 시작 위치만 픽셀 칸에 맞추고, 두께는 모든 선이 정확히 같은 값 */
+    const H=(x0,x1,y,t)=>{out+='<rect x="'+(sn(x0)-fr.left)+'" y="'+(sn(y)-fr.top)+'" width="'+(sn(x1)-sn(x0))+'" height="'+t+'"/>'};
+    const V=(x,y0,y1,t)=>{out+='<rect x="'+(sn(x)-fr.left)+'" y="'+(sn(y0)-fr.top)+'" width="'+t+'" height="'+(sn(y1)-sn(y0))+'"/>'};
     const bx=box.getBoundingClientRect(),bb=bEl.getBoundingClientRect(),nv=nav.getBoundingClientRect();
-    R(bx.left,bx.top-2*T,bx.right,bx.top);          /* 위 굵은 선 */
-    R(bx.left,bx.bottom,bx.right,bx.bottom+T);       /* 박스 아래 선 */
-    R(bb.left,bx.top,bb.left+T,bx.bottom);           /* 세로선 */
-    R(nv.left,nv.bottom,nv.right,nv.bottom+T);       /* 대괄호 아래 선 */
-    document.querySelectorAll('.panel.on tr').forEach(tr=>{const r=tr.getBoundingClientRect();R(r.left,r.bottom-T,r.right,r.bottom)});
+    H(bx.left,bx.right,bx.top-2*T,2*T);   /* 위 굵은 선 */
+    H(bx.left,bx.right,bx.bottom,T);      /* 박스 아래 선 */
+    V(bb.left,bx.top,bx.bottom,T);        /* 세로선 */
+    H(nv.left,nv.right,nv.bottom,T);      /* 대괄호 아래 선 */
+    document.querySelectorAll('.panel.on tr').forEach(tr=>{const r=tr.getBoundingClientRect();H(r.left,r.right,r.bottom-T,T)});
     svg.setAttribute('width',fr.width);svg.setAttribute('height',fr.height);
     svg.setAttribute('fill',getComputedStyle(document.documentElement).getPropertyValue('--line').trim()||'#2b2b2b');
     svg.innerHTML=out;
